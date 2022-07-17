@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "PT Sans", sans-serif;
+}
+
+:root {
+  --primary: #fff;
+  --primary-color-red: #f00946;
+  --primary-color-blue: #276afb;
+  --primary-color-black: #242424;
+  --primary-color-green: #25ce4a;
+}
