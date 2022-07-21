@@ -1,10 +1,10 @@
-import Section from "../components/Section";
-import { infantil } from "../data/Data";
 
-const Infantil = () => {
+
+const Infantil = (props) => {
   return (
     <>
-      <Section {...infantil} />
+    <h1> juego </h1>
+     
     </>
   );
 };
