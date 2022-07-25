@@ -1,90 +1,79 @@
-import React from "react";
-
-import { infantil, peliculas, series, tv } from "../data/Data";
-import { useEffect, useState } from "react";
-import "../styles/login.css";
+import React, { useContext } from "react";
+import juegoContext from "../context/juegoContext";
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
+import { useState } from "react";
+import get from "../rest/get";
 
+import "../styles/login.css";
 
 const Home = () => {
+  const [jugadores_act, set_jugadores_act] = useState({});
 
+  const {set_jugadores,set_deck_id,set_cartas} = useContext(juegoContext);
 
-    
+  const handleClick = (e) => {
+    let aux = async () => {
+      const { data } = await get({url: "http://deckofcardsapi.com/api/deck/new/",data_pos:{}});
+      set_deck_id(data.deck_id)
+    };
 
-  const [nombre, setNombre] = useState({usuario_1:"",usuario_2:""});
-  const [button, setButton] = useState(true);
-  const [click, setClick] = useState(false);
+    aux()
 
-  const handleClick = () => {
-    setClick(!click);
+    const arr_jugadores = []
+    console.log(arr_jugadores)
+
+    for(const [key, value] of Object.entries(jugadores_act)){
+      console.log(key)
+      arr_jugadores.push(value)
+    }
+    set_cartas([])
+    set_jugadores(arr_jugadores)
   };
 
-  
-
-
-
-const handlerChanga = (e) => {
-  
-  console.log(e)
-  setNombre({usuario_1: e.target.value,usuario_2: e.target.value})
-    
-};
-
-
-
-
-  const handleMobileMenu = () => {
-    setClick(false);
+  const handlerChanga = (e) => {
+    set_jugadores_act({...jugadores_act,[e.target.name]: e.target.value});
   };
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 960) {
-        setButton(false);
-      } else {
-        setButton(true);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
 
   return (
-      <> 
-   <head>    
-    <title>Login Form</title>    
-    <link rel="stylesheet" type="text/css" href="../styles/login.css" />     
-</head>    
-<body>    
-    <h2>registro de usuarios</h2>
-    <div class="login">    
-    <form id="login" >    
-        <label><b>jugador 1   
-        </b>    
-        </label>    
-        <input type="text" name="jugador_1" id="jugador_1" placeholder="jugador 1"  onChange={handlerChanga}/>    
-         
-        <label><b>jugador 2    
-        </b>    
-        </label>    
-        <input type="text" name="jugador_2" id="jugador_2" placeholder="jugador 2" onChange={handlerChanga}/>    
-  
-              <li type="button" name="log" id="log" value="Log In Here" onClick={handleMobileMenu}>
-              <Link to="/infantil" className="nav-links">
-                Infantil
-              </Link>
-            </li>     
-          
+    <>
+      <div>
+        <title>Login Form</title>
+        <link rel="stylesheet" type="text/css" href="../styles/login.css" />
+      </div>
+      <div>
+        <h2>Registrar jugadores</h2>
+        <div className="login">
+          <form id="login">
+            <label>
+              <strong>Jugador 1</strong>
+            </label>
+            <input
+              type="text"
+              name="jugador_1"
+              id="jugador_1"
+              placeholder="jugador 1"
+              onChange={handlerChanga}
+            />
 
-    </form>     
-</div>    
-</body>
-</>
-   
+            <label>
+              <strong>Jugador 2</strong>
+            </label>
+            <input
+              type="text"
+              name="jugador_2"
+              id="jugador_2"
+              placeholder="jugador 2"
+              onChange={handlerChanga}
+            />
+
+            <Link to="/infantil" className="nav-links btn btn-success" onClick={handleClick}>
+              JUGAR
+            </Link>
+
+          </form>
+        </div>
+      </div>
+    </>
   );
 };
 
