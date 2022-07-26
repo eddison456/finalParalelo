@@ -69,12 +69,15 @@ const Infantil = () => {
 
   // Funcion para cuando de play
   const on_play = (e) => {
+    cargando(true)
     let aux = async () => {
       // Peticion para pedir cartas
       const { data } = await get({
         url: `http://deckofcardsapi.com/api/deck/${deck_id}/draw/`,
         data_pos: { count: jugadores.length },
       });
+
+      cargando(false)
 
       // guardamos las cartas en un arreglo donde la pos 0 sn las cartas del jugador 1, y asi sucesivamente
       if (data != null) {
@@ -167,12 +170,18 @@ const Infantil = () => {
     return ganadores;
   };
 
+  const cargando = (boolean)=>{
+    document.getElementById("btn_play").disabled = boolean
+    document.getElementById("cargando_play").style.display = (boolean == true ? "" : "none")
+  }
+
   return (
     <>
       <button id="btn_play" type="button" className="btn btn-success boton_play" onClick={on_play}>
-        PLAY
+      <span id="cargando_play" class="spinner-border spinner-border-sm" role="status" style={{display:"none",marginRight:"5px"}} aria-hidden="true"></span>
+        REPARTIR CARTAS
       </button>
-      <div id="cartas_opcionadas" className="row">
+      <div id="cartas_opcionadas" style={{marginTop: "40px"}} className="row">
         {cartas_opcionadas.map((e, i) => {
           return (
             <div className="col-6">
