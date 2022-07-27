@@ -8,6 +8,7 @@ import React from "react";
 import "../styles/infantil.css";
 
 const Infantil = () => {
+  //variables globales del contexto global
   const {
     deck_id,
     jugadores,
@@ -15,10 +16,11 @@ const Infantil = () => {
     set_cartas,
     cartas_opcionadas,
     set_cartas_opcionadas,
-  } = useContext(juegoContext);
+  } = useContext(juegoContext);// para acceder a las variables del contexto
 
   const [ganador, set_ganador] = useState("");
 
+  //se ejecuta cuando se carga el componente infantil
   useEffect(() => {
     if (jugadores.length <= 0) {
       window.location.href = "/";
@@ -38,7 +40,7 @@ const Infantil = () => {
           const cartas_opcionadas_aux = [];
 
           const primero = getRandomInt(2); // primero al que se le va a dar la carta
-
+          //asigan cartas a los jugadores
           cartas_aux[0].push(data.cards[primero]);
           cartas_aux[1].push(data.cards[Math.abs(primero - 1)]);
 
@@ -52,7 +54,7 @@ const Infantil = () => {
           }
 
           set_cartas_opcionadas(cartas_opcionadas_aux);
-          set_cartas(cartas_aux);
+          set_cartas(cartas_aux);//se ponen las cartas en el estado global
         }
       }
       console.log(cartas);
@@ -79,7 +81,7 @@ const Infantil = () => {
 
       cargando(false)
 
-      // guardamos las cartas en un arreglo donde la pos 0 sn las cartas del jugador 1, y asi sucesivamente
+      // guardamos las cartas en un arreglo donde la pos 0 son las cartas del jugador 1, y asi sucesivamente
       if (data != null) {
         const cartas_aux = [...cartas];
 
@@ -124,7 +126,9 @@ const Infantil = () => {
             document.getElementById("ganador_btn").click();
             document.getElementById("btn_play").disabled = true
           } else {
-            alert("Empate");
+            alert("Empate, el juego se iniciara de nuevo.")
+            window.location.href = "/"
+            
           }
         }
 

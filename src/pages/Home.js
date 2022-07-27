@@ -13,6 +13,7 @@ const Home = () => {
 
   const handleClick = (e) => {
     let aux = async () => {
+      //peticion para iniciar partida
       const { data } = await get({url: "http://deckofcardsapi.com/api/deck/new/",data_pos:{}});
       set_deck_id(data.deck_id)
     };
@@ -31,6 +32,7 @@ const Home = () => {
   };
 
   const handlerChanga = (e) => {
+    //agrego los jugadores cada vez que se presiona una tecla
     set_jugadores_act({...jugadores_act,[e.target.name]: e.target.value});
   };
 
